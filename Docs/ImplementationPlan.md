@@ -2,11 +2,11 @@
 
 ## 1. Project Setup & Architecture
 
-- [ ] Update project to .NET 9 preview targeting
+- [x] Update project to .NET 9 targeting
 - [ ] Create component namespaces and folder structure
 - [ ] Define public API surface and interfaces
 - [ ] Setup CSS isolation strategy
-- [ ] Create JS interop services (minimal)
+- [ ] Create DOM manipulation services (without JS)
 
 ## 2. Core Components
 
@@ -45,11 +45,11 @@
 - [ ] Plugin system for extensibility
 - [ ] Theme configuration
 
-## 4. JS Interop Layer
+## 4. DOM Manipulation Layer
 
-### 4.1 EditorInterop Service
+### 4.1 EditorDomHandler Service
 - [ ] Selection manipulation
-- [ ] Content DOM operations when needed
+- [ ] Content DOM operations using C#
 - [ ] Clipboard handling
 - [ ] Focus management
 
