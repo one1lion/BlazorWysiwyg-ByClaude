@@ -1,0 +1,34 @@
+@namespace BlazorWysiwyg.Components.Core
+@using Microsoft.AspNetCore.Components.Web
+@using BlazorWysiwyg.Models.Configuration
+@using BlazorWysiwyg.Components.Toolbar
+
+<div class="blazor-wysiwyg">
+    @if (Options.ToolbarOptions.Visible)
+    {
+        <EditorToolbar @ref="Toolbar"
+                       ButtonGroups="@Options.ToolbarOptions.ButtonGroups"
+                       EditorState="@EditorState"
+                       OnCommandExecuted="@ExecuteCommandAsync" />
+    }
+    
+    <div class="blazor-wysiwyg-editor"
+         @ref="EditorRef"
+         style="@GetEditorStyle()"
+         contenteditable="@(!Options.ReadOnly)"
+         @onfocus="OnFocusAsync"
+         @onblur="OnBlurAsync"
+         @oninput="OnInputAsync"
+         @onkeydown="OnKeyDownAsync"
+         @onmouseup="OnSelectionChangeAsync"
+         spellcheck="true">
+        @if (string.IsNullOrWhiteSpace(Content))
+        {
+            <p class="blazor-wysiwyg-placeholder">@Options.Placeholder</p>
+        }
+        else
+        {
+            @((MarkupString)Content)
+        }
+    </div>
+</div>

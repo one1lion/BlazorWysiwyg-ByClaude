@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "Components/Core/WysiwygEditor.razor.css",
+    "inputFile": "Components/Core/WysiwygEditor.razor.scss"
+  },
+  {
+    "outputFile": "Components/Toolbar/EditorToolbar.razor.css",
+    "inputFile": "Components/Toolbar/EditorToolbar.razor.scss"
+  }
+]

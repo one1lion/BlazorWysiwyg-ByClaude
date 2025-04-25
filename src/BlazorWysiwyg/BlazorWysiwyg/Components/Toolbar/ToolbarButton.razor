@@ -1,0 +1,10 @@
+@namespace BlazorWysiwyg.Components.Toolbar
+@using BlazorWysiwyg.Models.Configuration
+
+<button type="button"
+        class="toolbar-button @(Active ? "active" : "") @GetButtonClass()"
+        disabled="@Disabled"
+        title="@GetButtonTitle()"
+        @onclick="OnClick">
+    <span class="button-icon">@GetButtonIcon()</span>
+</button>

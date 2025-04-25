@@ -1,0 +1,19 @@
+@namespace BlazorWysiwyg.Components.Toolbar
+@using BlazorWysiwyg.Models.Commands
+@using BlazorWysiwyg.Models.Configuration
+@using BlazorWysiwyg.Models.State
+
+<div class="blazor-wysiwyg-toolbar @(Fixed ? "fixed" : "")">
+    @foreach (var group in ButtonGroups)
+    {
+        <div class="toolbar-group">
+            @foreach (var buttonType in group.Buttons)
+            {
+                <ToolbarButton ButtonType="@buttonType"
+                              Active="@IsButtonActive(buttonType)"
+                              Disabled="@IsButtonDisabled(buttonType)"
+                              OnClick="@(() => HandleButtonClick(buttonType))" />
+            }
+        </div>
+    }
+</div>

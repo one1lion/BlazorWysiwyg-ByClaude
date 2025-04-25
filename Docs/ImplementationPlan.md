@@ -1,4 +1,4 @@
-# BlazorWysiwyg Implementation Plan
+# Blazor WYSIWYG Implementation Plan
 
 ## 1. Project Setup & Architecture
 
