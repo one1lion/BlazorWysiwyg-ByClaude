@@ -6,5 +6,9 @@
   {
     "outputFile": "Components/Toolbar/EditorToolbar.razor.css",
     "inputFile": "Components/Toolbar/EditorToolbar.razor.scss"
+  },
+  {
+    "outputFile": "Components/Toolbar/ToolbarButton.razor.css",
+    "inputFile": "Components/Toolbar/ToolbarButton.razor.scss"
   }
 ]
