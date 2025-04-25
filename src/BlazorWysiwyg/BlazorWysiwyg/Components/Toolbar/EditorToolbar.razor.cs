@@ -15,7 +15,7 @@ public partial class EditorToolbar : ComponentBase
     /// Gets or sets the toolbar button groups
     /// </summary>
     [Parameter]
-    public List<ToolbarButtonGroup> ButtonGroups { get; set; } = new();
+    public List<ToolbarButtonGroup> ButtonGroups { get; set; } = [];
 
     /// <summary>
     /// Gets or sets whether the toolbar is fixed
@@ -91,7 +91,7 @@ public partial class EditorToolbar : ComponentBase
     /// <summary>
     /// Creates a command for the specified button type
     /// </summary>
-    private EditorCommand? CreateCommand(ToolbarButtonType buttonType)
+    private static EditorCommand? CreateCommand(ToolbarButtonType buttonType)
     {
         return buttonType switch
         {
@@ -107,8 +107,8 @@ public partial class EditorToolbar : ComponentBase
             ToolbarButtonType.AlignCenter => ParagraphCommand.Align("center"),
             ToolbarButtonType.AlignRight => ParagraphCommand.Align("right"),
             ToolbarButtonType.AlignJustify => ParagraphCommand.Align("justify"),
-            ToolbarButtonType.BulletList => new EditorCommand(), // Placeholder, will be implemented
-            ToolbarButtonType.NumberedList => new EditorCommand(), // Placeholder, will be implemented
+            //ToolbarButtonType.BulletList => new EditorCommand(), // Placeholder, will be implemented
+            //ToolbarButtonType.NumberedList => new EditorCommand(), // Placeholder, will be implemented
             ToolbarButtonType.Link => new InsertCommand("link"), // Placeholder, will show dialog
             ToolbarButtonType.Image => new InsertCommand("image"), // Placeholder, will show dialog
             ToolbarButtonType.Table => new InsertCommand("table"), // Placeholder, will show dialog

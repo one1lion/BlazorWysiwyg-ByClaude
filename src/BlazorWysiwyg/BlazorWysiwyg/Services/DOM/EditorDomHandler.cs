@@ -36,49 +36,52 @@ public class EditorDomHandler : IEditorDomHandler
     /// <summary>
     /// Initializes the editor and sets up event handlers
     /// </summary>
-    public async Task InitializeAsync()
+    public Task InitializeAsync()
     {
         _dotNetRef = DotNetObjectReference.Create(this);
         _selectionService.EditorElement = EditorElement;
 
         // In a real implementation, we would need minimal JS interop here
         // But for now, we'll keep it simple without JS dependencies
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Gets the current HTML content
     /// </summary>
-    public async Task<string> GetContentAsync()
+    public Task<string> GetContentAsync()
     {
         // For a minimal JS approach, we could use innerHTML properties
         // but would require a small JS function
-        return _cachedContent;
+        return Task.FromResult(_cachedContent);
     }
 
     /// <summary>
     /// Sets the HTML content
     /// </summary>
-    public async Task SetContentAsync(string html)
+    public Task SetContentAsync(string html)
     {
         _cachedContent = html;
         // In a real implementation, we would update the DOM
         // with minimal JS interop
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Gets the current selection state
     /// </summary>
-    public async Task<SelectionState> GetSelectionAsync()
+    public Task<SelectionState> GetSelectionAsync()
     {
-        return await _selectionService.GetSelectionAsync();
+        return Task.FromResult(_selectionService.GetSelection());
     }
 
     /// <summary>
     /// Sets the selection based on the provided state
     /// </summary>
-    public async Task SetSelectionAsync(SelectionState selection)
+    public Task SetSelectionAsync(SelectionState selection)
     {
-        await _selectionService.SetSelectionAsync(selection);
+        _selectionService.SetSelection(selection);
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -88,17 +91,13 @@ public class EditorDomHandler : IEditorDomHandler
     {
         try
         {
-            switch (command)
+            return command switch
             {
-                case FormatCommand formatCmd:
-                    return await ExecuteFormatCommandAsync(formatCmd);
-                case ParagraphCommand paragraphCmd:
-                    return await ExecuteParagraphCommandAsync(paragraphCmd);
-                case InsertCommand insertCmd:
-                    return await ExecuteInsertCommandAsync(insertCmd);
-                default:
-                    return CommandResult.Failed($"Unsupported command type: {command.GetType().Name}");
-            }
+                FormatCommand formatCmd => await ExecuteFormatCommandAsync(formatCmd),
+                ParagraphCommand paragraphCmd => await ExecuteParagraphCommandAsync(paragraphCmd),
+                InsertCommand insertCmd => await ExecuteInsertCommandAsync(insertCmd),
+                _ => CommandResult.Failed($"Unsupported command type: {command.GetType().Name}"),
+            };
         }
         catch (Exception ex)
         {
@@ -123,7 +122,7 @@ public class EditorDomHandler : IEditorDomHandler
         return CommandResult.Successful();
     }
 
-    private async Task<CommandResult> ExecuteParagraphCommandAsync(ParagraphCommand command)
+    private static Task<CommandResult> ExecuteParagraphCommandAsync(ParagraphCommand command)
     {
         // Implementation would depend on the specific command
         // This is a simplified version
@@ -131,7 +130,7 @@ public class EditorDomHandler : IEditorDomHandler
         // In a real implementation, we would modify the DOM
         // with minimal JS interop
 
-        return CommandResult.Successful();
+        return Task.FromResult(CommandResult.Successful());
     }
 
     private async Task<CommandResult> ExecuteInsertCommandAsync(InsertCommand command)
@@ -147,20 +146,17 @@ public class EditorDomHandler : IEditorDomHandler
         }
     }
 
-    private string BuildHtmlForInsertCommand(InsertCommand command)
+    private static string BuildHtmlForInsertCommand(InsertCommand command)
     {
-        switch (command.Name.ToLowerInvariant())
+        return command.Name.ToLowerInvariant() switch
         {
-            case "link":
-                return BuildLinkHtml(command);
-            case "image":
-                return BuildImageHtml(command);
-            default:
-                return command.Content;
-        }
+            "link" => BuildLinkHtml(command),
+            "image" => BuildImageHtml(command),
+            _ => command.Content,
+        };
     }
 
-    private string BuildLinkHtml(InsertCommand command)
+    private static string BuildLinkHtml(InsertCommand command)
     {
         var sb = new StringBuilder("<a");
 
@@ -181,7 +177,7 @@ public class EditorDomHandler : IEditorDomHandler
         return sb.ToString();
     }
 
-    private string BuildImageHtml(InsertCommand command)
+    private static string BuildImageHtml(InsertCommand command)
     {
         var sb = new StringBuilder("<img");
 
@@ -208,36 +204,38 @@ public class EditorDomHandler : IEditorDomHandler
     /// <summary>
     /// Gets the active formatting at the current selection
     /// </summary>
-    public async Task<HashSet<string>> GetActiveFormatsAsync()
+    public Task<HashSet<string>> GetActiveFormatsAsync()
     {
         // In a real implementation, we would check the DOM
         // with minimal JS interop
-        return new HashSet<string>();
+        return Task.FromResult<HashSet<string>>([]);
     }
 
     /// <summary>
     /// Focuses the editor
     /// </summary>
-    public async Task FocusAsync()
+    public Task FocusAsync()
     {
         // In a real implementation, we would use minimal JS interop
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Blurs the editor
     /// </summary>
-    public async Task BlurAsync()
+    public Task BlurAsync()
     {
         // In a real implementation, we would use minimal JS interop
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Gets whether the editor has focus
     /// </summary>
-    public async Task<bool> HasFocusAsync()
+    public Task<bool> HasFocusAsync()
     {
         // In a real implementation, we would use minimal JS interop
-        return false;
+        return Task.FromResult(false);
     }
 
     /// <summary>

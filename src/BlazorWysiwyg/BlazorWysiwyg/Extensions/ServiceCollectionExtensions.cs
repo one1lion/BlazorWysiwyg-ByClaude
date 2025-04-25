@@ -5,6 +5,7 @@ namespace BlazorWysiwyg.Extensions;
 using BlazorWysiwyg.Models.Configuration;
 using BlazorWysiwyg.Services.DOM;
 using BlazorWysiwyg.Services.DOM.Interfaces;
+using BlazorWysiwyg.Services.Icons;
 using BlazorWysiwyg.Services.Sanitization;
 using BlazorWysiwyg.Services.Sanitization.Interfaces;
 
@@ -25,6 +26,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IEditorDomHandler, EditorDomHandler>();
         services.AddScoped<ISelectionService, SelectionService>();
         services.AddScoped<IHtmlSanitizer, HtmlSanitizer>();
+        services.AddSingleton<IIconService, IconService>();
 
         // Configure options
         if (configureOptions != null)

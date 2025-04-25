@@ -2,6 +2,7 @@
 
 using System.Text;
 
+using BlazorWysiwyg.Components.Toolbar;
 using BlazorWysiwyg.Models.Commands;
 using BlazorWysiwyg.Models.Configuration;
 using BlazorWysiwyg.Models.State;
@@ -158,7 +159,7 @@ public partial class WysiwygEditor : ComponentBase, IAsyncDisposable
     /// <summary>
     /// Handles the focus event
     /// </summary>
-    protected async Task OnFocusAsync()
+    protected void OnFocus()
     {
         EditorState.HasFocus = true;
     }
@@ -166,7 +167,7 @@ public partial class WysiwygEditor : ComponentBase, IAsyncDisposable
     /// <summary>
     /// Handles the blur event
     /// </summary>
-    protected async Task OnBlurAsync()
+    protected void OnBlur()
     {
         EditorState.HasFocus = false;
     }
@@ -263,11 +264,14 @@ public partial class WysiwygEditor : ComponentBase, IAsyncDisposable
     /// <summary>
     /// Disposes of resources
     /// </summary>
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
         if (DomHandler is IDisposable disposable)
         {
             disposable.Dispose();
         }
+
+        GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
     }
 }

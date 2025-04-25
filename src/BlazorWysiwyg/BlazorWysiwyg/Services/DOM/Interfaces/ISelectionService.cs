@@ -17,22 +17,22 @@ public interface ISelectionService
     /// <summary>
     /// Gets the current selection state
     /// </summary>
-    Task<SelectionState> GetSelectionAsync();
+    SelectionState GetSelection();
 
     /// <summary>
     /// Sets the selection based on the provided state
     /// </summary>
-    Task SetSelectionAsync(SelectionState selection);
+    void SetSelection(SelectionState selection);
 
     /// <summary>
     /// Gets the parent element of the current selection
     /// </summary>
-    Task<string> GetParentElementAsync();
+    string GetParentElement();
 
     /// <summary>
     /// Gets the selected text
     /// </summary>
-    Task<string> GetSelectedTextAsync();
+    string GetSelectedText();
 
     /// <summary>
     /// Surrounds the current selection with the specified HTML tag

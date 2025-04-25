@@ -7,17 +7,17 @@ namespace BlazorWysiwyg.Services.Sanitization;
 /// <summary>
 /// Service for HTML sanitization
 /// </summary>
-public class HtmlSanitizer : IHtmlSanitizer
+public partial class HtmlSanitizer : IHtmlSanitizer
 {
     // Regular expressions for detecting malicious content
-    private static readonly Regex ScriptTagRegex = new(@"<script\b[^>]*>(.*?)</script>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex EventAttributeRegex = new(@"\bon\w+\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex JsUrlRegex = new(@"javascript:", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex DataUrlRegex = new(@"data:[^,]*base64", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex IframeTagRegex = new(@"<iframe\b[^>]*>(.*?)</iframe>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _scriptTagRegex = ScriptTagRegex();
+    private static readonly Regex _eventAttributeRegex = EventAttributeRegex();
+    private static readonly Regex _jsUrlRegex = JavaScriptUrlRegex();
+    private static readonly Regex _dataUrlRegex = DataUrlRegex();
+    private static readonly Regex _iframeTagRegex = IframeTagRegex();
 
     // List of allowed HTML tags
-    private static readonly HashSet<string> AllowedTags = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> _allowedTags = new(StringComparer.OrdinalIgnoreCase)
     {
         "p", "br", "hr",
         "h1", "h2", "h3", "h4", "h5", "h6",
@@ -28,7 +28,7 @@ public class HtmlSanitizer : IHtmlSanitizer
     };
 
     // List of allowed attributes for specific tags
-    private static readonly Dictionary<string, HashSet<string>> AllowedAttributes = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, HashSet<string>> _allowedAttributes = new(StringComparer.OrdinalIgnoreCase)
     {
         ["*"] = new(StringComparer.OrdinalIgnoreCase) { "id", "class", "style" },
         ["a"] = new(StringComparer.OrdinalIgnoreCase) { "href", "target", "rel", "title" },
@@ -51,19 +51,19 @@ public class HtmlSanitizer : IHtmlSanitizer
         }
 
         // Remove script tags and content
-        html = ScriptTagRegex.Replace(html, string.Empty);
+        html = _scriptTagRegex.Replace(html, string.Empty);
 
         // Remove event attributes
-        html = EventAttributeRegex.Replace(html, string.Empty);
+        html = _eventAttributeRegex.Replace(html, string.Empty);
 
         // Remove javascript: URLs
-        html = JsUrlRegex.Replace(html, string.Empty);
+        html = _jsUrlRegex.Replace(html, string.Empty);
 
         // Remove data: URLs with base64 content
-        html = DataUrlRegex.Replace(html, string.Empty);
+        html = _dataUrlRegex.Replace(html, string.Empty);
 
         // Remove iframe tags and content
-        html = IframeTagRegex.Replace(html, string.Empty);
+        html = _iframeTagRegex.Replace(html, string.Empty);
 
         // Use a more sophisticated approach for a real implementation
         // This is a simplified version for demonstration purposes
@@ -84,35 +84,46 @@ public class HtmlSanitizer : IHtmlSanitizer
         }
 
         // Check for script tags
-        if (ScriptTagRegex.IsMatch(html))
+        if (_scriptTagRegex.IsMatch(html))
         {
             return true;
         }
 
         // Check for event attributes
-        if (EventAttributeRegex.IsMatch(html))
+        if (_eventAttributeRegex.IsMatch(html))
         {
             return true;
         }
 
         // Check for javascript: URLs
-        if (JsUrlRegex.IsMatch(html))
+        if (_jsUrlRegex.IsMatch(html))
         {
             return true;
         }
 
         // Check for data: URLs with base64 content
-        if (DataUrlRegex.IsMatch(html))
+        if (_dataUrlRegex.IsMatch(html))
         {
             return true;
         }
 
         // Check for iframe tags
-        if (IframeTagRegex.IsMatch(html))
+        if (_iframeTagRegex.IsMatch(html))
         {
             return true;
         }
 
         return false;
     }
+
+    [GeneratedRegex(@"<script\b[^>]*>(.*?)</script>", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex ScriptTagRegex();
+    [GeneratedRegex(@"\bon\w+\s*=", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex EventAttributeRegex();
+    [GeneratedRegex(@"javascript:", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex JavaScriptUrlRegex();
+    [GeneratedRegex(@"data:[^,]*base64", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex DataUrlRegex();
+    [GeneratedRegex(@"<iframe\b[^>]*>(.*?)</iframe>", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex IframeTagRegex();
 }

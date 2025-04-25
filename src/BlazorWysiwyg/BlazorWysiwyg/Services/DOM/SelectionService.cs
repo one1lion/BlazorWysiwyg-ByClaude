@@ -30,7 +30,7 @@ public class SelectionService : ISelectionService
     /// <summary>
     /// Gets the current selection state
     /// </summary>
-    public async Task<SelectionState> GetSelectionAsync()
+    public SelectionState GetSelection()
     {
         // In a real implementation, we would use minimal JS interop
         // to get the actual selection
@@ -40,7 +40,7 @@ public class SelectionService : ISelectionService
     /// <summary>
     /// Sets the selection based on the provided state
     /// </summary>
-    public async Task SetSelectionAsync(SelectionState selection)
+    public void SetSelection(SelectionState selection)
     {
         // In a real implementation, we would use minimal JS interop
         // to set the actual selection
@@ -50,7 +50,7 @@ public class SelectionService : ISelectionService
     /// <summary>
     /// Gets the parent element of the current selection
     /// </summary>
-    public async Task<string> GetParentElementAsync()
+    public string GetParentElement()
     {
         // In a real implementation, we would use minimal JS interop
         return _cachedSelection.ParentElement;
@@ -59,7 +59,7 @@ public class SelectionService : ISelectionService
     /// <summary>
     /// Gets the selected text
     /// </summary>
-    public async Task<string> GetSelectedTextAsync()
+    public string GetSelectedText()
     {
         // In a real implementation, we would use minimal JS interop
         return _cachedSelection.SelectedText;
@@ -68,16 +68,16 @@ public class SelectionService : ISelectionService
     /// <summary>
     /// Surrounds the current selection with the specified HTML tag
     /// </summary>
-    public async Task SurroundWithTagAsync(string tagName, Dictionary<string, string>? attributes = null)
+    public Task SurroundWithTagAsync(string tagName, Dictionary<string, string>? attributes = null)
     {
         // In a real implementation, we would use minimal JS interop
         // For now, this is a placeholder
 
-        var selection = await GetSelectionAsync();
+        var selection = GetSelection();
 
         if (!selection.HasSelection)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         // To implement properly, we would need to:
@@ -85,37 +85,41 @@ public class SelectionService : ISelectionService
         // 2. Create a new element with the tag name
         // 3. Add attributes to the element
         // 4. Replace the selection with the new element containing the selected content
+
+        throw new NotImplementedException();
     }
 
     /// <summary>
     /// Inserts HTML at the current selection
     /// </summary>
-    public async Task InsertHtmlAsync(string html)
+    public Task InsertHtmlAsync(string html)
     {
         // In a real implementation, we would use minimal JS interop
         // For now, this is a placeholder
 
-        var selection = await GetSelectionAsync();
+        var selection = GetSelection();
 
         // To implement properly, we would need to:
         // 1. Get the current selection range
         // 2. Delete the current selection if any
         // 3. Insert the HTML at the current position
+        throw new NotImplementedException();
     }
 
     /// <summary>
     /// Inserts text at the current selection
     /// </summary>
-    public async Task InsertTextAsync(string text)
+    public Task InsertTextAsync(string text)
     {
         // In a real implementation, we would use minimal JS interop
         // For now, this is a placeholder
 
-        var selection = await GetSelectionAsync();
+        var selection = GetSelection();
 
         // To implement properly, we would need to:
         // 1. Get the current selection range
         // 2. Delete the current selection if any
         // 3. Insert the text at the current position
+        throw new NotImplementedException();
     }
 }
